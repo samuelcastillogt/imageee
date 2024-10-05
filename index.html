@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="container"></div>
+    <script>
+        var container = document.getElementById("container");
+        const URL1 = "https://dummyjson.com/products/category-list"
+        const URL_2= "https://dummyjson.com/carts"
+        const getData = async()=>{
+            try {
+                const images = []
+                const result = await fetch(URL1)
+                const result2 = await fetch(URL_2)
+                const category_list = await result.json()
+                const carts = await result2.json()
+                console.log(category_list)
+                console.log(carts.carts)
+                carts.carts.forEach(e => {
+                    e.products.forEach(e => {
+                        console.log(e.thumbnail)
+                        images.push(e.thumbnail)
+                    })
+                })
+                images.forEach(element => {
+                    container.innerHTML += `<img src="${element}">`
+                });
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        document.addEventListener("DOMContentLoaded", getData)
+    </script>
+</body>
+</html>
